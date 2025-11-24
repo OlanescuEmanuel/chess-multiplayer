@@ -1,13 +1,21 @@
+import { useReducer } from 'react';
 import './App.css';
 import Board from './components/Board';
 import AppContext from './context/Context';
+import { reducer } from './reducer/reducer';
+import { initGameState } from './constant';
 
 function App() {
-  return (
+  const [appState, dispatch] = useReducer(reducer,initGameState)
 
-    <AppContext.Provider value={{}} >
+  const providerState = {
+    appState,
+    dispatch
+  }
+  return (
+    <AppContext.Provider value={providerState} >
       <div className="App">
-        <Board/>
+        <Board />
       </div>
     </AppContext.Provider>
   )
