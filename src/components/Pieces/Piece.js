@@ -9,8 +9,7 @@ const Piece = ({
 }) => {
 
     const {appState, dispatch} = useAppContext()
-    const {turn, position} = appState
-    const currentPosition = position[position.length - 1]
+    const {turn, position : currentPosition} = appState
 
     
 
@@ -23,7 +22,12 @@ const Piece = ({
         }, 0)
         
         if (turn === piece[0]) {
-            const candidateMoves = arbiter.getRegularMoves({position:currentPosition,piece,rank,file})
+            const candidateMoves = arbiter.getValidMoves({
+                position:currentPosition[currentPosition.length-1],
+                prevPosition: currentPosition[currentPosition.length-2],
+                piece,
+                rank,
+                file})
             dispatch(generateCandidateMoves({candidateMoves}))
         }
     }
