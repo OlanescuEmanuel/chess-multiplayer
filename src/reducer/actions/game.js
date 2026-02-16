@@ -26,3 +26,11 @@ export const setupNewGame = () => {
         payload: initGameState
     }
 }
+
+
+export const detectCheckmate = winner => {
+    return {
+        type: actionTypes.WIN,
+        payload: winner
+    }
+}
