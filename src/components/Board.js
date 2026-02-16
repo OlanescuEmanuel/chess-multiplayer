@@ -7,6 +7,8 @@ import Ranks from './bits/Ranks'
 import Popup from './Popup/Popup'
 import arbiter from '../arbiter/arbiter'
 import { getKingPosition } from '../arbiter/getMoves'
+import PromotionBox from './Popup/PromotionBox/PromotionBox'
+import GameEnds from './Popup/GameEnds/GameEnds'
 
 
 const Board = () => {
@@ -62,7 +64,10 @@ const Board = () => {
 
         <Pieces/>
 
-        <Popup/>
+        <Popup>
+            <PromotionBox></PromotionBox>    
+            <GameEnds/>
+        </Popup>
 
         <Files files={files}/>
     </div>
