@@ -7,6 +7,7 @@ import { clearCandidates, makeNewMove } from '../../reducer/actions/move.js'
 import { openPromotion } from '../../reducer/actions/popup.js'
 import { getCastleDirections } from '../../arbiter/getMoves.js'
 import { detectCheckmate, detectInsufficientMaterial, detectStalemate, updateCastling } from '../../reducer/actions/game.js'
+import { getNewMoveNotation } from '../../helper.js'
 
 const Pieces = () => {
     
@@ -68,7 +69,12 @@ const Pieces = () => {
                 piece,rank,file,
                 x,y
             })
-            dispatch(makeNewMove({newPosition}))
+
+            const newMove = getNewMoveNotation({
+                piece,rank,file,x,y,position : currentPosition
+            })
+
+            dispatch(makeNewMove({newPosition, newMove}))
 
 
             if (arbiter.insufficientMaterial(newPosition)) {
