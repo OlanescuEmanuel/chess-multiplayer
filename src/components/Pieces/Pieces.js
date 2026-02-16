@@ -6,7 +6,7 @@ import { useAppContext } from '../../context/Context.js'
 import { clearCandidates, makeNewMove } from '../../reducer/actions/move.js'
 import { openPromotion } from '../../reducer/actions/popup.js'
 import { getCastleDirections } from '../../arbiter/getMoves.js'
-import { detectStalemate, updateCastling } from '../../reducer/actions/game.js'
+import { detectInsufficientMaterial, detectStalemate, updateCastling } from '../../reducer/actions/game.js'
 
 const Pieces = () => {
     
@@ -71,8 +71,11 @@ const Pieces = () => {
             dispatch(makeNewMove({newPosition}))
 
 
-            if (arbiter.isStalemate(newPosition, opponent, castleDirection))
+            if (arbiter.insufficientMaterial(newPosition)) {
+                dispatch(detectInsufficientMaterial())
+            } else if (arbiter.isStalemate(newPosition, opponent, castleDirection)) {
                dispatch(detectStalemate())
+            }
 
 
         }
