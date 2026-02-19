@@ -27,7 +27,8 @@ function App() {
 
   const providerState = {
     appState,
-    dispatch
+    dispatch,
+    gameId
   }
   return (
     <AppContext.Provider value={providerState} >

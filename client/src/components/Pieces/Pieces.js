@@ -8,12 +8,13 @@ import { openPromotion } from '../../reducer/actions/popup.js'
 import { getCastleDirections } from '../../arbiter/getMoves.js'
 import { detectCheckmate, detectInsufficientMaterial, detectStalemate, updateCastling } from '../../reducer/actions/game.js'
 import { getNewMoveNotation } from '../../helper.js'
+import { updateGame } from '../../utils/api.js'
 
 const Pieces = () => {
     
     const ref = useRef()
 
-    const {appState, dispatch} = useAppContext()
+    const {appState, dispatch, gameId} = useAppContext()
 
     
     const currentPosition = appState.position[appState.position.length-1]
@@ -47,7 +48,7 @@ const Pieces = () => {
         }
     }
 
-    const move = e => {
+    const move = async e => {
         const {x,y} = calculateCoords(e)
         const [piece,rank,file] = e.dataTransfer.getData('text').split(',');
         if (appState.candidateMoves?.find(m => m[0] === x && m[1] === y)){
@@ -75,6 +76,16 @@ const Pieces = () => {
             })
 
             dispatch(makeNewMove({newPosition, newMove}))
+
+
+            // salveaza in backend
+            if(gameId) {
+                await updateGame(
+                    gameId, 
+                    [...appState.movesList, newMove],
+                    appState.status
+                )
+            }
 
 
             if (arbiter.insufficientMaterial(newPosition)) {
